@@ -1,0 +1,39 @@
+---
+title: "plotly_test"
+author: "hcm"
+date: "January 13, 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = F)
+```
+
+## Play with bike data collected summer of 2018
+
+
+```{r bike, eval=T }
+bike_H <- read.csv("bike_data.csv")
+bike_D<- read.csv("bike_data_D.csv")
+bike <- rbind(bike_H, bike_D)
+bike <- bike[bike$distance..km.<50,]
+names(bike) <- c("datetime","dist.km","mtime","elev.m","power.w","E.kJ","sp.km.h","HR","calories","bike","note")
+library(knitr)
+showdata<-kable(bike,format="markdown")
+
+```
+
+## Testing plotly for JHU Developing Data Product class
+Interactive 3d scatter plot of calories vs distance and speed:
+
+
+
+```{r calories, message=F}
+library(plotly)
+p<-plot_ly(bike, x = ~sp.km.h, y = ~dist.km, z = ~calories, type = "scatter3d", mode = "markers", color = ~bike, showlegend=F)
+p
+
+
+```
+
+
